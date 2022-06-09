@@ -1,0 +1,59 @@
+<!--
+annotations.html - Display a list of user annotation jobs with links to details for each job
+Copyright (C) 2011-2018 Vas Vasiliadis <vas@uchicago.edu>
+University of Chicago
+-->
+{% extends "base.html" %}
+{% block title %}Annotations{% endblock %}
+{% block body %}
+  {% include "header.html" %}
+  <div class="container">
+    <div class="page-header">
+      <h1>My Annotations</h1>
+    </div>
+
+    <div class="row text-right">
+      <a href="{{ url_for('annotate') }}" title="Request New Annotation">
+        <button type="button" class="btn btn-link" aria-label="Request New Annotation">
+          <i class="fa fa-plus fa-lg"></i> Request New Annotation
+        </button>
+      </a>
+    </div>
+
+    <!-- DISPLAY LIST OF ANNOTATION JOBS -->
+    <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    </style>
+    </head>
+    <body>
+
+    <table>
+      <tr>
+        <th>Request ID</th>
+        <th>Request Time</th>
+        <th>VCF File Name</th>
+        <th>Status</th>
+      </tr>
+
+      {% for each in annotations %}
+      <tr>
+        <td><a href="{{ url_for('annotation_details', id=each['job_id']) }}">{{ each["job_id"] }}</a></td>
+        <td>{{ each["request_time"] }}</td>
+        <td>{{ each["vcf_file_name"] }}</td>
+        <td>{{ each["status"] }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+  </div> <!-- container -->
+{% endblock %}

@@ -1,0 +1,55 @@
+<!--
+subscribe.html - Get user's credit card details to send to Stripe service
+Copyright (C) 2011-2018 Vas Vasiliadis <vas@uchicago.edu>
+University of Chicago
+-->
+{% extends "base.html" %}
+{% block title %}Subscribe{% endblock %}
+{% block body %}
+  {% include "header.html" %}
+  <!-- Captures the user's credit card information and uses Javascript to send to Stripe -->
+  <div class="container">
+    <div class="page-header">
+      <h1>Subscribe</h1>
+    </div>
+
+    <p>You are subscribing to the GAS Premium plan. Please enter your credit card details to complete your subscription.</p><br />
+
+    <div class="form-wrapper">
+      <form role="form" action="{{url_for('subscribe')}}" method="post" id="subscribe_form" name="subscribe_submit">     
+        <span class="payment-errors"></span>
+
+        <!-- GET USER CREDIT CARD DETAILS -->
+        <label >Name on credit card</label>
+        <br>
+        <input class="form-control input-lg required" type="text" placeholder="full name" required="required" data-stripe="name">
+        <br>
+
+        <label >Credit card number</label>
+        <br>
+        <input class="form-control input-lg required" type="text" placeholder="card number" required="required" data-stripe="number">
+        <br>
+
+        <label >Credit card verification code</label>
+        <br>
+        <input class="form-control input-lg required" type="text" placeholder="cvc" required="required" data-stripe="cvc">
+        <br>
+
+        <label >Credit card expiration month</label>
+        <br>
+        <input class="form-control input-lg required" type="text" placeholder="exp month" required="required" data-stripe="exp-month">
+        <br>
+
+        <label >Credit card expiration year</label>
+        <br>
+        <input class="form-control input-lg required" type="text" placeholder="exp year" required="required" data-stripe="exp-year">
+        <br>
+      
+        <br />
+        <div class="form-actions">
+          <input id="bill-me" class="btn btn-lg btn-primary" type="submit" value="Subscribe (your credit card will not be billed)">
+        </div>
+      </form>
+    </div>
+  </div> <!-- container -->
+{% endblock %}

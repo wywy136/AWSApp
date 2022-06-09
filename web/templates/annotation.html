@@ -1,0 +1,73 @@
+<!--
+annotation_details.html - Display details about a user's annotation job
+Copyright (C) 2011-2018 Vas Vasiliadis <vas@uchicago.edu>
+University of Chicago
+-->
+{% extends "base.html" %}
+{% block title %}Annotation Details{% endblock %}
+{% block body %}
+  {% include "header.html" %}
+
+  <div class="container">
+    <div class="page-header">
+      <h1>Annotation Details</h1>
+    </div>
+
+    <!-- DISPLAY ANNOTATION JOB DETAILS -->
+    <div>
+    <b>Request ID: </b> {{ annotations["job_id"] }}
+    <br> 
+    <b>Request Time: </b> {{ annotations["request_time"] }}
+    <br> 
+    <b>VCF Input File: </b> {{ annotations["vcf_file_name"] }}
+    <br> 
+    <b>Status: </b> {{ annotations["status"] }}
+    <br> 
+    {% if annotations["complete_time"] == None %}
+    <b>Complete Time: </b> Still Running ...
+    {% else %}
+    <b>Complete Time: </b> {{ annotations["complete_time"] }}
+    {% endif %}
+    </div>
+
+    <hr />
+    <div>
+    {% if annotations["complete_time"] != None %}
+    
+      {% if annotations["archived"] == True %}
+
+        {% if annotations["is_premium"] == True %}
+
+          {% if annotations["downloadable"] == True %}
+          <b>Annotated Results File: </b> <a href={{ download_url }}>download</a>
+          {% else %}
+          <b>Annotated Results File: file is being restored; please check back later</b>
+          {% endif %}
+
+        {% else %}
+        <b>Annotated Results File: file archived;</b> <a href="{{ url_for('subscribe') }}">upgrade to premium restore</a>
+        {% endif %}
+
+      {% else %}
+      <b>Annotated Results File: </b> <a href={{ download_url }}>download</a>
+      {% endif %}
+
+    {% else %}
+    <b>Annotated Results File: </b> Cannot be downloaded until the job is finished. Please refresh the page.
+    {% endif %}
+    <br> 
+
+    {% if annotations["complete_time"] != None %}
+    <b>Annotation Log File: </b> <a href="{{ url_for('annotation_log', id=annotations['job_id']) }}">view</a>
+    {% else %}
+    <b>Annotation Log File: </b> Cannot be viewed until the job is finished. Please refresh the page.
+    {% endif %}
+    <br> 
+    </div>
+
+
+    <hr />
+    <a href="{{ url_for('annotations_list') }}">&larr; back to annotations list</a>
+
+  </div> <!-- container -->
+{% endblock %}
